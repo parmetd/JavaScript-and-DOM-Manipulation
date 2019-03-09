@@ -19,80 +19,90 @@ tableData.forEach((ufos) => {
     });
   });}
 
+  // Part 1 for just date time filter.
   // Event Handler
-  var submit = d3.select("#filter-btn");
-  submit.on("click", function() {
-    // Prevent the page from refreshing
-    d3.event.preventDefault();
-    // Clear the full data table with soon to be replaced filtered data.
-    d3.selectAll("td").remove()
-    // Select the input element and get the raw HTML node
-    // Get the value property of the input element
-    var inputValue = dateInput.property("value");
-    console.log(inputValue);
-    // Clearing the Filter value
-    var filteredData = tableData.filter(sighting => sighting.datetime === inputValue);
-    // Creating the new table for the filtered the data.
-    init(filteredData)
-    // Clearing the the Input Value
-    d3.select("#datetime").node().value = "";
-  });
+  // var submit = d3.select("#filter-btn");
+  // submit.on("click", function() {
+  //   // Prevent the page from refreshing
+  //   d3.event.preventDefault();
+  //   // Clear the full data table with soon to be replaced filtered data.
+  //   d3.selectAll("td").remove()
+  //   // Select the input element and get the raw HTML node
+  //   // Get the value property of the input element
+  //   var inputValue = dateInput.property("value");
+  //   console.log(inputValue);
+  //   // Clearing the Filter value
+  //   var filteredData = tableData.filter(sighting => sighting.datetime === inputValue);
+  //   // Creating the new table for the filtered the data.
+  //   init(filteredData)
+  //   // Clearing the the Input Value
+  //   d3.select("#datetime").node().value = "";
+  // });
     
   init(tableData);
 
+    
 
-// // starting the bonus for the html filters beyond date.
-// function search(event){
-// 	//to prevent the page from refreshing
-//     d3.event.preventDefault();
-//     d3.selectAll("td").remove()
-//     var filterDict = {};
+// The bonus for the html filters beyond date.
 
-//     if (dateInput.property("value") != ""){
-//         filterDict = {...filterDict,...{"datetime":dateInput.property("value")}};
-//     }
+function table(dataOutput) {
+  dataOutput.forEach((ufos) => {
+      var row = tbody.append("tr");
+      Object.entries(ufos).forEach(([key, value]) => {
+           row.append("td").text(value);
+      });
+    });
+  }
 
-//     if (cityInput.property("value") != ""){
-//         filterDict = {...filterDict,...{"city":cityInput.property("value")}};
-//     }
+var searchButton = d3.select("#filter-btn");
 
-//     if (stateInput.property("value") != ""){
-//         filterDict = {...filterDict,...{"state":stateInput.property("value")}};
-//     }
+// add an event listener to searchbutton and resetbutton and add a function
+searchButton.on("click", search);
 
-//     if (countryInput.property("value") != ""){
-//         filterDict = {...filterDict,...{"country":countryInput.property("value")}};
-//     }
+function search(event){
+	  //to prevent the page from refreshing
+    d3.event.preventDefault();
+    // Clear the full data table with soon to be replaced filtered data.
+    d3.selectAll("td").remove()
+    var filterDict = {};
 
-//     if (shapeInputer.property("value") != ""){
-//         filterDict = {...filterDict,...{"shape":shapeInputer.property("value")}};
-//     }
+    if (dateInput.property("value") != ""){
+        filterDict = {...filterDict,...{"datetime":dateInput.property("value")}};
+    }
 
-//     console.log(filterDict);
-//     var dataOutput = tableData;
+    if (cityInput.property("value") != ""){
+        filterDict = {...filterDict,...{"city":cityInput.property("value")}};
+    }
 
-//     Object.entries(filterDict).forEach(function([key,value]) {
+    if (stateInput.property("value") != ""){
+        filterDict = {...filterDict,...{"state":stateInput.property("value")}};
+    }
 
-//         console.log(key,value);
-//         dataOutput = dataOutput.filter(dataDict => dataDict[key] === value);
+    if (countryInput.property("value") != ""){
+        filterDict = {...filterDict,...{"country":countryInput.property("value")}};
+    }
 
-//     })
+    if (shapeInputer.property("value") != ""){
+        filterDict = {...filterDict,...{"shape":shapeInputer.property("value")}};
+    }
 
-//     if (dataOutput.length > 0) {
-//         table(dataOutput);
-//     }
+    console.log(filterDict);
+    var dataOutput = tableData;
 
-// }  
+    Object.entries(filterDict).forEach(function([key,value]) {
+
+        console.log(key,value);
+        dataOutput = dataOutput.filter(dataDict => dataDict[key] === value);
+
+    })
+
+    if (dataOutput.length > 0) {
+        table(dataOutput);
+    }
+
+}  
   
 
 
-// function table(dataOutput) {
-// dataOutput.forEach((ufos) => {
-//     var row = tbody.append("tr");
-//     Object.entries(ufos).forEach(([key, value]) => {
-//          row.append("td").text(value);
-//     });
-//   });
-// }
 
 
